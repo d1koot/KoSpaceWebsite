@@ -1,0 +1,12 @@
+{
+  // Cloudflare Workers + static assets: serves the Next.js static export from ./out
+  // (public/_headers and public/_redirects end up in ./out and are honoured by Workers assets).
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kospace",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
