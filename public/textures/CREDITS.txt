@@ -1,0 +1,15 @@
+\texturesEarth textures used by the hero (components/hero/earth.ts). All files are self-hosted, nothing is hot-linked.
+
+earth_day_2k.jpg     NASA Blue Marble: Next Generation (NASA Earth Observatory / Visible Earth, imagery by Reto Stockli, NASA GSFC).
+                     Resized to 2048x1024 and recompressed.
+earth_night_2k.jpg   City-lights mask extracted from NASA's "Earth at Night" imagery (NASA Earth Observatory). Grayscale, 2048x1024.
+earth_ocean_1k.webp  Land / water mask (white = water), cleaned and resized to 1024x512; used for the sun glint on the oceans.
+earth_clouds_2k.webp Procedurally generated cloud layer (original work for this project, seamless 3D fBm sampled on a sphere).
+
+Licensing: Visible Earth states that its images are free to re-use, including commercially, unless a copyright is indicated on the
+image page; the only mandatory credit is NASA (BMNG: "NASA Earth Observatory"). The site footer carries that credit.
+Do not use the NASA logo or imply NASA endorsement.
+
+Open item: the NASA-derived maps were taken from a public GitHub mirror, not from nasa.gov, so the exact source page is not recorded.
+To close it, re-download from https://visibleearth.nasa.gov/ ("Blue Marble: Next Generation", "Earth at Night"), check there is no
+third-party copyright note on the image page, and swap in with the same file names at 2048x1024.
