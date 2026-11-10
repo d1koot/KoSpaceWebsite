@@ -1,0 +1,108 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+:root{--ease:cubic-bezier(.76,0,.24,1)}
+html{background:#000;color-scheme:dark}
+body{@apply bg-black text-white font-sans antialiased overflow-x-hidden}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+
+/* ───────────── HERO (components/Hero.tsx) ───────────── */
+.kh{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;background:#000;color:#fff;cursor:grab;touch-action:pan-y;-webkit-user-select:none;user-select:none;font-family:'Montserrat',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+.kh[data-drag]{cursor:grabbing}
+.kh-scene{position:absolute;inset:0;opacity:0;transition:opacity 2.8s cubic-bezier(.4,0,.2,1)}
+.kh[data-state=ready] .kh-scene,.kh[data-state=fallback] .kh-scene{opacity:1}
+.kh-gl{position:absolute;inset:0}
+/* CSS-only planet limb: used when WebGL is unavailable or the context is lost */
+.kh-limb{--r:max(109vw,1px);position:absolute;left:calc(98vw - var(--r));top:7svh;width:calc(var(--r)*2);height:calc(var(--r)*2);border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,#050c1c 0%,#0a2147 66%,#2c64b4 93%,#9fcfff 99.4%,rgba(120,180,255,0) 100%);box-shadow:0 0 5vw .6vw rgba(110,170,255,.45),inset 0 0 6vw rgba(150,200,255,.35)}
+@media (max-aspect-ratio:5/4){.kh-limb{--r:max(118vw,92svh);left:calc(90vw - var(--r));top:50svh}}
+.kh-shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(70% 46% at 50% 47%,rgba(0,0,0,.42),transparent 72%),radial-gradient(130% 100% at 50% 40%,transparent 48%,rgba(0,0,0,.6) 100%),linear-gradient(180deg,rgba(0,0,0,.5),transparent 24%,transparent 72%,rgba(0,0,0,.55))}
+
+/* leaving the hero: the lit blue planet sinks into black, so the cut to the black apps section is invisible */
+.kh-dim{position:absolute;inset:0;z-index:1;pointer-events:none;background:#000;opacity:calc(var(--p,0)*.9)}
+.kh-fade{position:absolute;left:0;right:0;bottom:-1px;height:48svh;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,0) 0,rgba(0,0,0,.35) 30%,rgba(0,0,0,.75) 62%,rgba(0,0,0,.94) 85%,#000 100%);opacity:min(1,calc(var(--p,0)*6))}
+
+.kh-content{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:72px 24px 96px;pointer-events:none;opacity:calc(1 - var(--p,0)*1.5);transform:translate3d(0,calc(var(--p,0)*-48px),0)}
+.kh-title{margin:0;font-weight:200;text-transform:uppercase;letter-spacing:.055em;line-height:1.08;font-size:clamp(28px,8.6vw,60px);text-wrap:balance}
+@media (min-width:768px){.kh-title{font-size:clamp(46px,6.1vw,108px)}.kh-line-in{white-space:nowrap}}
+.kh-line{display:block;overflow:hidden;padding:.12em 0;margin:-.12em 0}
+.kh-line-in{display:block;animation:kh-up 1.5s var(--ease) var(--d,0s) backwards}
+@keyframes kh-up{from{transform:translateY(112%)}to{transform:none}}
+.kh-rise{animation:kh-rise 1.2s var(--ease) var(--d,0s) backwards}
+@keyframes kh-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.kh-sub{margin:clamp(22px,3.2vw,40px) 0 0;font-weight:300;font-size:clamp(10px,1.05vw,13px);letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.58)}
+
+.kh-btn{position:relative;display:inline-block;margin-top:clamp(30px,4.2vw,56px);pointer-events:auto;cursor:pointer;text-decoration:none;color:#000;-webkit-tap-highlight-color:transparent}
+.kh-btn-fill{display:block;padding:17px 32px 16px;background:#fff;color:#000;font:500 12px/1 'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.16em;text-transform:uppercase;transition:letter-spacing .55s var(--ease),background-color .3s}
+.kh-c{position:absolute;width:9px;height:9px;border:0 solid #fff;transition:transform .55s var(--ease),width .55s var(--ease),height .55s var(--ease)}
+.kh-c-tl{left:-8px;top:-8px;border-width:1.5px 0 0 1.5px}
+.kh-c-tr{right:-8px;top:-8px;border-width:1.5px 1.5px 0 0}
+.kh-c-bl{left:-8px;bottom:-8px;border-width:0 0 1.5px 1.5px}
+.kh-c-br{right:-8px;bottom:-8px;border-width:0 1.5px 1.5px 0}
+.kh-btn:hover .kh-c,.kh-btn:focus-visible .kh-c{width:14px;height:14px}
+.kh-btn:hover .kh-c-tl,.kh-btn:focus-visible .kh-c-tl{transform:translate(-6px,-6px)}
+.kh-btn:hover .kh-c-tr,.kh-btn:focus-visible .kh-c-tr{transform:translate(6px,-6px)}
+.kh-btn:hover .kh-c-bl,.kh-btn:focus-visible .kh-c-bl{transform:translate(-6px,6px)}
+.kh-btn:hover .kh-c-br,.kh-btn:focus-visible .kh-c-br{transform:translate(6px,6px)}
+.kh-btn:hover .kh-btn-fill,.kh-btn:focus-visible .kh-btn-fill{letter-spacing:.21em}
+.kh-btn:active .kh-c{transition-duration:.12s;transform:none}
+.kh-btn:focus-visible{outline:none}
+
+.kh-hint{position:absolute;left:0;right:0;bottom:max(26px,env(safe-area-inset-bottom));z-index:2;display:flex;flex-direction:column;align-items:center;gap:12px;pointer-events:none;font-weight:300;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);opacity:calc(1 - var(--p,0)*3)}
+.kh-hint-line{position:relative;display:block;width:1px;height:34px;overflow:hidden;background:rgba(255,255,255,.22)}
+.kh-hint-line::after{content:'';position:absolute;left:0;top:0;width:1px;height:40%;background:#fff;transform:translateY(-100%);will-change:transform;animation:kh-drip 2.2s cubic-bezier(.6,0,.2,1) infinite}
+@keyframes kh-drip{to{transform:translateY(250%)}}
+
+/* ───────────── OPEN SOURCES (components/Projects.tsx + projects/Showcase.tsx) ───────────── */
+.ka{position:relative;overflow:hidden;background:#000;color:#fff;padding:clamp(96px,12vw,160px) 0 clamp(64px,8vw,110px);font-family:'Montserrat',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+.ka-head{display:flex;flex-direction:column;align-items:center;padding:0 24px;text-align:center}
+.ka-title{display:flex;flex-direction:column;align-items:center;margin:0;line-height:1;font-weight:400}
+.ka-get{font-weight:300;font-size:clamp(13px,1.3vw,17px);letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.ka-apps{display:block;margin-top:-.04em;padding:0 .08em .12em;font-family:Yellowtail,cursive;font-weight:400;font-size:clamp(104px,17vw,260px);line-height:.86;letter-spacing:0}
+.ka-intro{max-width:30rem;margin:clamp(14px,1.8vw,24px) 0 0;font-weight:300;font-size:clamp(13px,1.15vw,15px);line-height:1.65;color:rgba(255,255,255,.55)}
+
+.ka-stage{position:relative;display:flex;flex-direction:column;margin-top:clamp(28px,4vw,60px)}
+.ka-stage[data-view=ribbon]{display:block;height:clamp(520px,82vh,880px)}
+.ka-stage[data-view=grid]{min-height:clamp(520px,82vh,880px)}
+.ka-gl{position:absolute;inset:0;z-index:1;opacity:0;touch-action:pan-y;cursor:grab;transition:opacity 1.1s cubic-bezier(.4,0,.2,1);-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 7%,#000 86%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 7%,#000 86%,transparent 100%)}
+.ka-stage[data-ready] .ka-gl{opacity:1}
+.ka-gl[data-drag]{cursor:grabbing}
+
+.ka-list{margin:0;padding:0;list-style:none}
+/* row: plain horizontally scrollable cards (fallback) */
+.ka-stage[data-view=row] .ka-list{display:flex;gap:16px;justify-content:safe center;overflow-x:auto;padding:6px 24px 8px;scroll-snap-type:x mandatory;scroll-padding-inline:24px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.ka-stage[data-view=row] .ka-list::-webkit-scrollbar{display:none}
+.ka-stage[data-view=row] .ka-list>li{flex:0 0 min(84vw,520px);scroll-snap-align:center}
+/* grid: FULL view */
+.ka-stage[data-view=grid] .ka-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px;width:100%;max-width:1180px;margin:auto;padding:0 24px}
+/* behind the ribbon: visually hidden but focusable real links */
+.ka-stage[data-view=ribbon] .ka-list{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.ka-card{position:relative;display:block;aspect-ratio:1.43;overflow:hidden;isolation:isolate;border-radius:22px;background:radial-gradient(120% 90% at 20% 0%,var(--c1,#2c55a8),var(--c2,#0a1128) 70%,#05060b);color:#fff;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.ka-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.ka-card:hover img{transform:scale(1.04)}
+.ka-card-num{position:absolute;inset:0;display:grid;place-items:center;font-weight:200;font-size:clamp(90px,16vw,200px);color:rgba(255,255,255,.07)}
+.ka-card-shade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 52%,rgba(0,0,0,.6))}
+.ka-card-title{position:absolute;left:7%;bottom:8%;font-weight:400;font-size:clamp(16px,1.7vw,22px);letter-spacing:.01em}
+.ka-card-go{position:absolute;right:5%;bottom:6.5%;display:grid;place-items:center;width:clamp(36px,3.4vw,46px);aspect-ratio:1;border-radius:50%;background:#000;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);transition:transform .5s var(--ease)}
+.ka-card:hover .ka-card-go{transform:translateX(3px)}
+.ka-card:focus-visible{outline:2px solid #fff;outline-offset:4px}
+
+/* corner labels: static bar under the cards, real corners over the ribbon */
+.ka-ui{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:28px 24px 0;font-weight:400;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff}
+.ka-ui-tr{display:none;color:rgba(255,255,255,.55)}
+.ka-ui button,.ka-ui a{color:inherit;text-decoration:none;cursor:pointer;transition:opacity .3s}
+.ka-ui-bl{display:flex;align-items:center;gap:.7em}
+.ka-ui-bl button{opacity:.4;font:inherit;letter-spacing:inherit;text-transform:inherit}
+.ka-ui-bl button[aria-pressed=true]{opacity:1}
+.ka-ui-bl button:hover{opacity:1}
+.ka-ui-bl span{opacity:.4}
+.ka-ui-br{border-bottom:1px solid transparent;padding-bottom:2px;transition:border-color .3s}
+.ka-ui-br:hover{border-color:rgba(255,255,255,.7)}
+.ka-ui button:focus-visible,.ka-ui a:focus-visible{outline:1px solid #fff;outline-offset:5px}
+.ka-stage[data-view=ribbon] .ka-ui{position:absolute;inset:0;z-index:2;display:block;padding:0;pointer-events:none}
+.ka-stage[data-view=ribbon] .ka-ui>*{position:absolute;pointer-events:auto}
+.ka-stage[data-view=ribbon] .ka-ui-tr{display:block;pointer-events:none}
+.ka-stage[data-view=ribbon] .ka-ui-tl{left:clamp(20px,3.2vw,48px);top:clamp(14px,2.2vw,30px);pointer-events:none}
+.ka-stage[data-view=ribbon] .ka-ui-tr{right:clamp(20px,3.2vw,48px);top:clamp(14px,2.2vw,30px)}
+.ka-stage[data-view=ribbon] .ka-ui-bl{left:clamp(20px,3.2vw,48px);bottom:clamp(14px,2.2vw,30px)}
+.ka-stage[data-view=ribbon] .ka-ui-br{right:clamp(20px,3.2vw,48px);bottom:clamp(14px,2.2vw,30px)}
+@media (max-width:640px){.ka-ui{font-size:10px;letter-spacing:.12em}}
