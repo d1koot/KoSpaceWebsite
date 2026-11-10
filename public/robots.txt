@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /secret
+Disallow: /countries
+
+Sitemap: https://kosmos.day/sitemap.xml
