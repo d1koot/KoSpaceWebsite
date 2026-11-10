@@ -45,7 +45,8 @@ export default function Hero() {
     io.observe(section)
 
     const boot = async () => {
-      if (!hasWebGL()) { setState('fallback'); return }
+      // phones: skip the 3D Earth (no three.js / textures download), use the light CSS planet instead
+      if (!hasWebGL() || matchMedia('(max-width: 820px)').matches) { setState('fallback'); return }
       try {
         const { createEarth } = await import('./hero/earth')
         if (cancelled) return
